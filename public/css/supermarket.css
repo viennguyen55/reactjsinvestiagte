@@ -1,0 +1,117 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+
+/* HTML5 display-role reset for older browsers */
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+
+body {
+    line-height: 1;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+blockquote, q {
+    quotes: none;
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+    content: '';
+    content: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+div#react-root {
+    width: 90%;
+    margin: 5% auto;
+}
+
+img.abstract-image {
+    max-width: 180px;
+    border: 2px solid #ca4040;
+    float: left;
+}
+
+div.clearFloat {
+    clear: both;
+}
+
+.product-list {
+    width: 500px;
+}
+li.product {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #f1e5e5;
+}
+
+.infor {
+    padding-left: 200px;
+}
+h3.headline {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+#react-root > div.full-page{
+  position: relative;
+}
+#SuperBasket{
+  position: absolute;
+  top: 10%;
+  right: 30%;
+  width: 50px;
+  height: 50px;
+}
+#SuperBasket > div.image-basket{
+  width: 100%;
+  height: 100%;
+  background: url(https://maristmessenger.co.nz/wp-content/uploads/2011/08/basket2.jpg) center no-repeat;
+  background-size: contain;
+  text-align: center;
+  cursor: pointer;
+}
+#SuperBasket > div > span{
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 50px;
+}
+img.abstract-image.basket{
+  width: 100px;
+}
+.infor.basket{
+  padding-left: 110px;
+}
+.headline.basket{
+  margin-bottom: 0px;
+}
+.product-list.basket{
+  display: none;
+  width: 207px;
+  background: rgba(14, 6, 6, 0.22);
+  padding: 5px;
+  margin-left: -70px;
+}
+#SuperBasket:hover ul.product-list.basket{
+  display: block;
+}

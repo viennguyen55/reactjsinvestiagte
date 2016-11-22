@@ -1,37 +1,42 @@
 var initData =[
   {
-    "id": 1,
+    "idProduct": 1,
     "name": "Chicken",
     "image": "http://del.h-cdn.co/assets/cm/15/10/54f64ad5e25cf_-_200102-omag-comfort-roasted-chicken-400x400.jpg",
     "price": 10000,
+    "saleOff": -1,
     "description": "Garlic-Rosemary Roasted Chicken and Potatoes"
   },
   {
-    "id": 2,
+    "idProduct": 2,
     "name": "Chicken",
     "image": "http://del.h-cdn.co/assets/cm/15/10/54f64ad5e25cf_-_200102-omag-comfort-roasted-chicken-400x400.jpg",
     "price": 10000,
+    "saleOff": -1,
     "description": "Garlic-Rosemary Roasted Chicken and Potatoes"
   },
   {
-    "id": 3,
+    "idProduct": 3,
     "name": "Chicken",
     "image": "http://del.h-cdn.co/assets/cm/15/10/54f64ad5e25cf_-_200102-omag-comfort-roasted-chicken-400x400.jpg",
     "price": 10000,
+    "saleOff": -1,
     "description": "Garlic-Rosemary Roasted Chicken and Potatoes"
   },
   {
-    "id": 4,
+    "idProduct": 4,
     "name": "Chicken",
     "image": "http://del.h-cdn.co/assets/cm/15/10/54f64ad5e25cf_-_200102-omag-comfort-roasted-chicken-400x400.jpg",
     "price": 10000,
+    "saleOff": -1,
     "description": "Garlic-Rosemary Roasted Chicken and Potatoes"
   },
   {
-    "id": 5,
+    "idProduct": 5,
     "name": "Chicken",
     "image": "http://del.h-cdn.co/assets/cm/15/10/54f64ad5e25cf_-_200102-omag-comfort-roasted-chicken-400x400.jpg",
     "price": 10000,
+    "saleOff": -1,
     "description": "Garlic-Rosemary Roasted Chicken and Potatoes"
   }
 ];
