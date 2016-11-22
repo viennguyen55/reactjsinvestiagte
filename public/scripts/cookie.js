@@ -9,35 +9,35 @@ var initData =[
   },
   {
     "idProduct": 2,
-    "name": "Chicken",
-    "image": "http://del.h-cdn.co/assets/cm/15/10/54f64ad5e25cf_-_200102-omag-comfort-roasted-chicken-400x400.jpg",
-    "price": 10000,
+    "name": "Hamburger",
+    "image": "http://meltingpotdj.com/wp-content/uploads/2016/04/hamburger-1-bosse-400x400.jpg",
+    "price": 12345,
     "saleOff": -1,
-    "description": "Garlic-Rosemary Roasted Chicken and Potatoes"
+    "description": "Hamburger 1 bosse"
   },
   {
     "idProduct": 3,
-    "name": "Chicken",
-    "image": "http://del.h-cdn.co/assets/cm/15/10/54f64ad5e25cf_-_200102-omag-comfort-roasted-chicken-400x400.jpg",
-    "price": 10000,
+    "name": "Apple",
+    "image": "http://anacortesoilandvinegarbar.com/wp-content/uploads/2015/10/Gravenstien-Apple-400x400.jpg",
+    "price": 21000,
     "saleOff": -1,
-    "description": "Garlic-Rosemary Roasted Chicken and Potatoes"
+    "description": "Gravenstein Apple White Balsamic"
   },
   {
     "idProduct": 4,
-    "name": "Chicken",
-    "image": "http://del.h-cdn.co/assets/cm/15/10/54f64ad5e25cf_-_200102-omag-comfort-roasted-chicken-400x400.jpg",
-    "price": 10000,
+    "name": "Beaf",
+    "image": "http://media.cooky.vn/recipe/g2/14115/s400x400/recipe-635579305168168213.jpg",
+    "price": 19000,
     "saleOff": -1,
     "description": "Garlic-Rosemary Roasted Chicken and Potatoes"
   },
   {
     "idProduct": 5,
-    "name": "Chicken",
-    "image": "http://del.h-cdn.co/assets/cm/15/10/54f64ad5e25cf_-_200102-omag-comfort-roasted-chicken-400x400.jpg",
-    "price": 10000,
+    "name": "Bread",
+    "image": "http://supremeflour.co.za/wp-content/uploads/2016/06/White-Bread-400x400.jpg",
+    "price": 5000,
     "saleOff": -1,
-    "description": "Garlic-Rosemary Roasted Chicken and Potatoes"
+    "description": "Here it is! supreme flour's legendary white bread. you."
   }
 ];
 var Cookie = {

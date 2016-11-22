@@ -1,45 +1,77 @@
 // init the router ES5
 var { Router, Route, IndexRoute, Link } = ReactRouter
+var CustomButtonProduct = React.createClass({
+  render: function(){
+    if( this.props.type == "shop"){
+      return (
+        <input type="button" className="btn" value="Buy" onClick={this.props.sendToBasket}/>
+      )
+    }else if( this.props.type == "basket"){
+      return (
+        <input type="button" className="btn" value="Delete" onClick={this.props.delProduct}/>
+      )
+    }else {
+      return (
+        <span></span>
+      )
+    }
+  }
+});
+var CustomFieldOfInformationProduct = React.createClass({
+  render: function(){
+    if ( this.props.type == "shop"){
+      return (
+        <div className="infor">
+          <img className="abstract-image" src={this.props.product.image} />
+          <h3 className="headline"> {this.props.product.name} </h3>
+          <p className="price">{this.props.product.price}$</p>
+          <p className="description"> {this.props.product.description} </p>
+          <CustomButtonProduct type = {this.props.type} sendToBasket={this.props.sendToBasket} />
+        </div>
+      )
+    }else if ( this.props.type == "basket"){
+      return (
+        <div className="infor basket">
+          <img className="abstract-image basket" src={this.props.product.image} />
+          <h3 className="headline basket"> {this.props.product.name} </h3>
+          <p className="price bakset">Price: {this.props.product.price}$</p>
+          <p className="number bakset">Number: {this.props.product.number}</p>
+          <CustomButtonProduct type = {this.props.type} delProduct={this.props.delProduct} />
+        </div>
+      )
+    }else{
+      return (
+        <div className="infor">
+          <img className="abstract-image" src={this.props.product.image} />
+          <h3 className="headline "> {this.props.product.name} </h3>
+          <p className="price ">Price: {this.props.product.price}$</p>
+          <p className="number ">Number: {this.props.product.number}</p>
+        </div>
+      )
+    }
+  }
+});
+var C
 ///////////////
 /// render infor of a product
 //////////////
+
 var Product = React.createClass({
   sendToBasket: function(e){
     e.preventDefault();
     this.props.buyProduct(this.props.product.idProduct);
   },
-  delProduct: function(){
+  delProduct: function(e){
+    e.preventDefault();
     this.props.delProductOfBasket(this.props.product.idProduct);
   },
   render: function(){
-    if (this.props.type == "shop"){
       return(
         <li className="product" id-product={this.props.product.idProduct} >
-          <img className="abstract-image" src={this.props.product.image} />
-          <div className="infor">
-            <h3 className="headline"> {this.props.product.name} </h3>
-            <p className="price">{this.props.product.price}$</p>
-            <p className="description"> {this.props.product.description} </p>
-            <input type="button" className="btn" value="Buy" onClick={this.sendToBasket}/>
-          </div>
+          <CustomFieldOfInformationProduct product = {this.props.product}  type={this.props.type} sendToBasket={this.sendToBasket} delProduct={this.delProduct}  />
           <div className="clearFloat"></div>
         </li>
       )
-    }else if (this.props.type == "basket"){
-      return(
-        <li className="product" id-product={this.props.product.idProduct} >
-          <img className="abstract-image basket" src={this.props.product.image} />
-          <div className="infor basket">
-            <h3 className="headline basket"> {this.props.product.name} </h3>
-            <p className="price bakset">Price: {this.props.product.price}$</p>
-            <p className="number bakset">Number: {this.props.product.number}</p>
-            <input type="button" className="btn" value="Delete" onClick={this.delProduct}/>
-          </div>
-          <div className="clearFloat"></div>
-        </li>
-      )
-    }
-
   }
 });
 //////////////
@@ -65,7 +97,10 @@ var ProductList = React.createClass({
 /// the product list of the client buy
 /////////////
 var Basket = React.createClass({
-
+  buy: function(e){
+    e.preventDefault();
+    this.props.updateProductOfClient(this.props.products);
+  },
   render: function(){
     var basket = this;
     if ( this.props.products.length == 0){
@@ -89,6 +124,7 @@ var Basket = React.createClass({
                 )
               })
             }
+            <li onClick={this.buy}><Link to="/result">PAY</Link></li>
           </ul>
         </div>
       )
@@ -150,7 +186,7 @@ var ShopPage = React.createClass({
     return(
       <div className="shop">
         <ProductList products = {this.state.productsOfShop} buyProduct= {this.buyProduct}  />
-        <Basket products = {this.state.productOfBasket} delProductOfBasket={this.delProductOfBasket} />
+        <Basket products = {this.state.productOfBasket} delProductOfBasket={this.delProductOfBasket} updateProductOfClient={this.props.updateProductOfClient} />
       </div>
     );
   }
@@ -159,10 +195,28 @@ var ShopPage = React.createClass({
 /// show the result after the client bought
 /// /////////////
 var ResultPage = React.createClass({
+  calMoney: function(){
+    var total = 0;
+    var p =this.props.productOfClient;
+    for (var i = 0; i < p.length; i++){
+      total += p[i].price*p[i].number;
+    }
+    return total;
+  },
   render: function(){
     return(
       <div className="result">
-        <h1>The Result:</h1>
+        <h1>Result:</h1>
+          <ul className="product-list shop">
+            {
+              this.props.productOfClient.map(function(product){
+                return (
+                    <Product product={product} key={product.idProduct}  type="nohandle"/>
+                )
+              })
+            }
+          </ul>
+        <span>Total: {this.calMoney()}$</span>
       </div>
     );
   }
@@ -171,12 +225,45 @@ var ResultPage = React.createClass({
 /// the component of the website
 //////////////////////////////
 var SuperMarket = React.createClass({
+  updateProductOfClient: function(products){
+    this.setState({productOfClient: products});
+  },
+  getInitialState: function(){
+    return{
+      productOfClient: []
+    }
+  },
   render: function(){
     return(
       <div className="full-page" >
-        {this.props.children}
+        <Header />
+        {this.props.children && React.cloneElement(this.props.children, {
+              updateProductOfClient: this.updateProductOfClient,
+              productOfClient: this.state.productOfClient
+            })}
+        <Footer />
       </div>
     );
+  }
+});
+/////////////////
+/// Nav
+///////////////////
+var Header = React.createClass({
+  render: function(){
+    return(
+      <div className="header">Welcom to Shop</div>
+    )
+  }
+});
+//////////////////////
+///footer
+///////////////////
+var Footer = React.createClass({
+  render: function(){
+    return(
+      <div className="header">created by vien.nguyen</div>
+    )
   }
 });
 
