@@ -104,11 +104,65 @@ img.abstract-image.basket{
 }
 .product-list.basket{
   display: none;
-  width: 240px;
+  width: 300px;
   background: rgba(14, 6, 6, 0.22);
   padding: 5px;
   margin-left: -70px;
 }
 #SuperBasket:hover ul.product-list.basket{
   display: block;
+  transition: width 1s;
+}
+#SuperBasket.vibrate{
+  animation: vibrate 0.5s 4;
+}
+@keyframes vibrate {
+    0% {
+      -ms-transform: rotate(0deg); /* IE 9 */
+       -webkit-transform: rotate(0deg); /* Chrome, Safari, Opera */
+       transform: rotate(0deg);
+       color: blue;
+    }
+    25% {
+      -ms-transform: rotate(15deg); /* IE 9 */
+       -webkit-transform: rotate(15deg); /* Chrome, Safari, Opera */
+       transform: rotate(15deg);
+       color: green;
+    }
+    50% {
+      -ms-transform: rotate(7deg); /* IE 9 */
+       -webkit-transform: rotate(7deg); /* Chrome, Safari, Opera */
+       transform: rotate(7deg);
+       color: black;
+    }
+}
+
+#SuperBasket > ul > li > a{
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+}
+.example-enter {
+  opacity: 0.01;
+  transition: opacity .5s ease-in;
+}
+
+.example-enter.example-enter-active {
+  opacity: 1;
+}
+
+.example-leave {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}
+
+.example-leave.example-leave-active {
+  opacity: 0;
+}
+#react-root > div > div.result > a{
+  display: block;
+  width: 100%;
+  background: #810d15;
+  font-size: 23px;
+  text-align: center;
 }

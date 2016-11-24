@@ -1,23 +1,33 @@
 // init the router ES5
 var { Router, Route, IndexRoute, Link } = ReactRouter
-var CustomButtonProduct = React.createClass({
-  render: function(){
-    if( this.props.type == "shop"){
-      return (
-        <input type="button" className="btn" value="Buy" onClick={this.props.sendToBasket}/>
-      )
-    }else if( this.props.type == "basket"){
-      return (
-        <input type="button" className="btn" value="Delete" onClick={this.props.delProduct}/>
-      )
-    }else {
-      return (
-        <span></span>
-      )
-    }
-  }
-});
 var CustomFieldOfInformationProduct = React.createClass({
+  changePrice: function(e){
+    if ( e.target.value == "0" ||  e.target.value == "" )
+    {
+      console.log('==0');
+      e.target.value = this.state.numberOfProduct;
+      return;
+    }
+    this.setState({numberOfProduct: e.target.value});
+    this.props.changePrice(this.props.product.idProduct, e.target.value);
+  },
+  cancalP: function(){
+    console.log();
+    this.props.cancelProduct(this.props.product.idProduct);
+  },
+  getInitialState: function(){
+    if( this.props.type != "shop" && this.props.type != "basket"  ){
+      return {
+        numberOfProduct: this.props.product.number
+      }
+    }
+    return {
+    }
+  },
+  // componentDidUpdate: function(){
+  //   console.log('render of custom fields');
+  //   // this.setState({numberOfProduct: this.props.product.number});
+  // },
   render: function(){
     if ( this.props.type == "shop"){
       return (
@@ -26,7 +36,7 @@ var CustomFieldOfInformationProduct = React.createClass({
           <h3 className="headline"> {this.props.product.name} </h3>
           <p className="price">{this.props.product.price}$</p>
           <p className="description"> {this.props.product.description} </p>
-          <CustomButtonProduct type = {this.props.type} sendToBasket={this.props.sendToBasket} />
+          <input type="button" className="btn" value="Buy" onClick={this.props.sendToBasket}/>
         </div>
       )
     }else if ( this.props.type == "basket"){
@@ -36,7 +46,7 @@ var CustomFieldOfInformationProduct = React.createClass({
           <h3 className="headline basket"> {this.props.product.name} </h3>
           <p className="price bakset">Price: {this.props.product.price}$</p>
           <p className="number bakset">Number: {this.props.product.number}</p>
-          <CustomButtonProduct type = {this.props.type} delProduct={this.props.delProduct} />
+          <input type="button" className="btn" value="Delete" onClick={this.props.delProduct}/>
         </div>
       )
     }else{
@@ -45,13 +55,13 @@ var CustomFieldOfInformationProduct = React.createClass({
           <img className="abstract-image" src={this.props.product.image} />
           <h3 className="headline "> {this.props.product.name} </h3>
           <p className="price ">Price: {this.props.product.price}$</p>
-          <p className="number ">Number: {this.props.product.number}</p>
+          <p className="number ">Number: <input type="number" min = "1" max = "100"  value={this.state.numberOfProduct} onChange={this.changePrice}/></p>
+          <input type="button" className="btn" value="Delete" onClick={this.cancalP}/>
         </div>
       )
     }
   }
 });
-var C
 ///////////////
 /// render infor of a product
 //////////////
@@ -66,9 +76,11 @@ var Product = React.createClass({
     this.props.delProductOfBasket(this.props.product.idProduct);
   },
   render: function(){
+      // console.log('render of the Product component');
       return(
         <li className="product" id-product={this.props.product.idProduct} >
-          <CustomFieldOfInformationProduct product = {this.props.product}  type={this.props.type} sendToBasket={this.sendToBasket} delProduct={this.delProduct}  />
+          <CustomFieldOfInformationProduct product = {this.props.product}  type={this.props.type}
+          sendToBasket={this.sendToBasket} delProduct={this.delProduct} cancelProduct={this.props.cancelProduct} changePrice={this.props.changePrice} />
           <div className="clearFloat"></div>
         </li>
       )
@@ -77,15 +89,15 @@ var Product = React.createClass({
 //////////////
 /// manage the product list
 /////////////
-var ProductList = React.createClass({
+var ProductListOfShop = React.createClass({
   render: function(){
-    var productList = this;
+    var ProductListOfShop = this;
     return(
         <ul className="product-list shop">
           {
             this.props.products.map(function(product){
               return (
-                  <Product product={product} key={product.idProduct} buyProduct={productList.props.buyProduct} type="shop"/>
+                  <Product product={product} key={product.idProduct} buyProduct={ProductListOfShop.props.buyProduct} type="shop"/>
               )
             })
           }
@@ -97,6 +109,20 @@ var ProductList = React.createClass({
 /// the product list of the client buy
 /////////////
 var Basket = React.createClass({
+  componentWillUpdate(prevProps, prevState) {
+  },
+   componentDidUpdate(prevProps, prevState) {
+      $('#SuperBasket > div.image-basket ').addClass('vibrate');
+      $('#SuperBasket > div.image-basket ').on(
+    "transitionend MSTransitionEnd webkitTransitionEnd oTransitionEnd",
+        function() {
+          console.log('done animation');
+            $(this).delay(1000).queue(function() {  // Wait for 1 second.
+                $(this).removeClass("vibrate").dequeue();
+            });
+        }
+    );
+   },
   buy: function(e){
     e.preventDefault();
     this.props.updateProductOfClient(this.props.products);
@@ -124,7 +150,9 @@ var Basket = React.createClass({
                 )
               })
             }
-            <li onClick={this.buy}><Link to="/result">PAY</Link></li>
+            <li onClick={this.buy} className="btn btn-danger col-xs-12 col-md-12"><Link to="/result">PAY</Link>
+            </li>
+            <div className="clearFloat"></div>
           </ul>
         </div>
       )
@@ -185,7 +213,7 @@ var ShopPage = React.createClass({
   render: function(){
     return(
       <div className="shop">
-        <ProductList products = {this.state.productsOfShop} buyProduct= {this.buyProduct}  />
+        <ProductListOfShop products = {this.state.productsOfShop} buyProduct= {this.buyProduct}  />
         <Basket products = {this.state.productOfBasket} delProductOfBasket={this.delProductOfBasket} updateProductOfClient={this.props.updateProductOfClient} />
       </div>
     );
@@ -194,16 +222,20 @@ var ShopPage = React.createClass({
 ////////////////////
 /// show the result after the client bought
 /// /////////////
-var ResultPage = React.createClass({
+var PayPage = React.createClass({
+  pay: function(){
+    alert('Done. Bye Bye');
+  },
   calMoney: function(){
     var total = 0;
-    var p =this.props.productOfClient;
+    var p = this.props.productOfClient;
     for (var i = 0; i < p.length; i++){
       total += p[i].price*p[i].number;
     }
     return total;
   },
   render: function(){
+    var payPage = this;
     return(
       <div className="result">
         <h1>Result:</h1>
@@ -211,12 +243,14 @@ var ResultPage = React.createClass({
             {
               this.props.productOfClient.map(function(product){
                 return (
-                    <Product product={product} key={product.idProduct}  type="nohandle"/>
+                    <Product product={product} key={product.idProduct} changePrice={payPage.props.changePrice}
+                     cancelProduct={payPage.props.cancelProduct}  type="nohandle"/>
                 )
               })
             }
           </ul>
         <span>Total: {this.calMoney()}$</span>
+        <Link to="/" onClick={this.pay}>$$$$</Link>
       </div>
     );
   }
@@ -225,6 +259,29 @@ var ResultPage = React.createClass({
 /// the component of the website
 //////////////////////////////
 var SuperMarket = React.createClass({
+  changePrice: function(idProduct, cNumber){
+    var len = this.state.productOfClient.length;
+    var prodcuts = [];
+    for ( var i = 0; i < len; i++){
+      if ( this.state.productOfClient[i].idProduct != idProduct ){
+        prodcuts.push( this.state.productOfClient[i]);
+      }else{
+        this.state.productOfClient[i].number = cNumber;
+        prodcuts.push(this.state.productOfClient[i]);
+      }
+    }
+    this.setState({productOfClient: prodcuts});
+  },
+  cancelProduct: function(idProduct){
+    var len = this.state.productOfClient.length;
+    var prodcuts = [];
+    for ( var i = 0; i < len; i++){
+      if ( this.state.productOfClient[i].idProduct != idProduct ){
+        prodcuts.push( this.state.productOfClient[i]);
+      }
+    }
+    this.setState({productOfClient: prodcuts});
+  },
   updateProductOfClient: function(products){
     this.setState({productOfClient: products});
   },
@@ -239,7 +296,7 @@ var SuperMarket = React.createClass({
         <Header />
         {this.props.children && React.cloneElement(this.props.children, {
               updateProductOfClient: this.updateProductOfClient,
-              productOfClient: this.state.productOfClient
+              productOfClient: this.state.productOfClient, cancelProduct: this.cancelProduct, changePrice: this.changePrice
             })}
         <Footer />
       </div>
@@ -275,7 +332,7 @@ ReactDOM.render(
   <Router>
     <Route path="/" component={SuperMarket}>
       <IndexRoute component={ShopPage} />
-      <Route path="result" component={ResultPage} />
+      <Route path="result" component={PayPage} />
     </Route>
   </Router>
   ,document.getElementById('react-root')
