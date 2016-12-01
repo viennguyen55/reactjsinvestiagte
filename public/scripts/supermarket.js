@@ -189,6 +189,7 @@ var ShopPage = React.createClass({
           pDraft.number = 1;
           p.push(pDraft);
           this.setState({productOfBasket: p });
+          Cookie.saveProduct(p);
         }
         break;
       }
@@ -202,12 +203,13 @@ var ShopPage = React.createClass({
         prodcuts.push( this.state.productOfBasket[i]);
       }
     }
+    Cookie.saveProduct(prodcuts);
     this.setState({productOfBasket: prodcuts});
   },
   getInitialState: function(){
     return {
-      productOfBasket: [],
-      productsOfShop: Cookie.getCookie('dbmarket')
+      productOfBasket: Cookie.getCookie('dbmarket'),
+      productsOfShop: Cookie.getCookie('dbshop')
     }
   },
   render: function(){
@@ -224,6 +226,7 @@ var ShopPage = React.createClass({
 /// /////////////
 var PayPage = React.createClass({
   pay: function(){
+    Cookie.saveProduct([]);
     alert('Done. Bye Bye');
   },
   calMoney: function(){
@@ -270,6 +273,7 @@ var SuperMarket = React.createClass({
         prodcuts.push(this.state.productOfClient[i]);
       }
     }
+    Cookie.saveProduct(prodcuts);
     this.setState({productOfClient: prodcuts});
   },
   cancelProduct: function(idProduct){
@@ -280,14 +284,21 @@ var SuperMarket = React.createClass({
         prodcuts.push( this.state.productOfClient[i]);
       }
     }
-    this.setState({productOfClient: prodcuts});
+    if ( prodcuts.length == 0 ){
+      this.props.router.push('/');
+    }else{
+      Cookie.saveProduct(prodcuts);
+      this.setState({productOfClient: prodcuts});
+    }
+
+
   },
   updateProductOfClient: function(products){
     this.setState({productOfClient: products});
   },
   getInitialState: function(){
     return{
-      productOfClient: []
+      productOfClient: Cookie.getCookie('dbmarket')
     }
   },
   render: function(){

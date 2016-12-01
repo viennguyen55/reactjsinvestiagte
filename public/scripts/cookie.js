@@ -25,7 +25,7 @@ var initData =[
   },
   {
     "idProduct": 4,
-    "name": "Beaf",
+    "name": "Meat",
     "image": "http://media.cooky.vn/recipe/g2/14115/s400x400/recipe-635579305168168213.jpg",
     "price": 19000,
     "saleOff": -1,
@@ -57,6 +57,8 @@ var Cookie = {
           }
           if (c.indexOf(name) == 0) {
               var text = c.substring(name.length, c.length);
+              if ( text.length == 0 )
+                return [];
               var t = text.split('???');
               var result = [];
               for( var i = 0; i < t.length; i++){
@@ -65,10 +67,10 @@ var Cookie = {
               return result;
           }
       }
-      return "";
+      return [];
   },
   checkCookie: function() {
-    var user = this.getCookie("dbmarket");
+    var user = this.getCookie("dbshop");
     if (user == "") {
       var len = initData.length;
       var text = '';
@@ -78,9 +80,20 @@ var Cookie = {
         else
           text += JSON.stringify(initData[i]);
       }
-      this.setCookie("dbmarket", text, 365);
+      this.setCookie("dbshop", text, 365);
     }
-}
+  },
+  saveProduct: function(listProduct){
+    var len = listProduct.length;
+    var text = '';
+    for( var i = 0; i < len; i++){
+      if ( i < len - 1 )
+        text += JSON.stringify(listProduct[i]) + '???';
+      else
+        text += JSON.stringify(listProduct[i]);
+    }
+    this.setCookie("dbmarket", text, 365);
+  }
 }
 
 Cookie.checkCookie();
